@@ -1,0 +1,4 @@
+spring:
+  datasource: {url: jdbc:h2:mem:snackledger;DB_CLOSE_DELAY=-1, username: sa, password: ''}
+  jpa: {hibernate: {ddl-auto: update}, open-in-view: false}
+  flyway: {enabled: false}

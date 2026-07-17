@@ -1,0 +1,1 @@
+package com.company.snackledger.server.repo;import com.company.snackledger.server.model.Item;import org.springframework.data.jpa.repository.JpaRepository;import java.util.*;public interface ItemRepository extends JpaRepository<Item,Long>{Optional<Item> findByBarcode(String b);List<Item> findTop10ByNameContainingIgnoreCase(String q);}
