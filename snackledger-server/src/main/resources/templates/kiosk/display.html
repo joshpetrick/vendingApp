@@ -12,6 +12,10 @@
       color: #f8fafc;
     }
 
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       overflow: hidden;
@@ -39,10 +43,11 @@
 
     main {
       display: grid;
-      gap: 1.5rem;
-      grid-template-rows: 1fr 1fr;
+      gap: .75rem;
+      grid-template-rows: .9fr 1.1fr;
       height: 100vh;
-      padding: 1.5rem;
+      min-height: 0;
+      padding: .75rem;
     }
 
     section {
@@ -51,23 +56,26 @@
       box-shadow: 0 1rem 3rem rgb(0 0 0 / 35%);
       display: flex;
       flex-direction: column;
+      min-height: 0;
       overflow: hidden;
     }
 
     h2 {
       background: #1e293b;
-      font-size: 1.8rem;
+      font-size: 1.35rem;
+      line-height: 1.1;
       margin: 0;
-      padding: .75rem 1.25rem;
+      padding: .45rem 1rem;
     }
 
     .page {
       display: none;
-      gap: 1rem;
+      gap: .6rem;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
+      grid-template-rows: repeat(2, minmax(0, 1fr));
       height: 100%;
-      padding: 1rem;
+      min-height: 0;
+      padding: .6rem;
     }
 
     .page.active {
@@ -83,22 +91,23 @@
       flex-direction: column;
       justify-content: center;
       min-height: 0;
-      padding: .5rem;
+      overflow: hidden;
+      padding: .35rem;
       text-align: center;
     }
 
     .name {
-      font-size: 1.8rem;
+      font-size: 1.35rem;
       font-weight: 700;
-      line-height: 1.15;
-      padding: 0 .75rem;
+      line-height: 1.1;
+      padding: 0 .5rem;
     }
 
     .amount {
       color: #86efac;
-      font-size: 2.4rem;
+      font-size: 1.8rem;
       font-weight: 800;
-      margin-top: .5rem;
+      margin-top: .25rem;
     }
 
     .amount.negative {
@@ -107,9 +116,9 @@
 
     .snack-image {
       height: auto;
-      margin-bottom: .5rem;
-      max-height: 90px;
-      max-width: 130px;
+      margin: .25rem 0;
+      max-height: 70px;
+      max-width: 110px;
       object-fit: contain;
       width: auto;
     }
