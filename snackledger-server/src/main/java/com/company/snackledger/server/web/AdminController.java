@@ -1,5 +1,6 @@
 package com.company.snackledger.server.web;
 
+import com.company.snackledger.server.admin.AdminOverviewService;
 import com.company.snackledger.server.config.KioskDisplayProperties;
 import com.company.snackledger.server.model.AppUser;
 import com.company.snackledger.server.model.Item;
@@ -20,24 +21,24 @@ public class AdminController {
     private final ItemRepository items;
     private final KioskDeviceRepository kiosks;
     private final KioskDisplayProperties kioskDisplayProperties;
+    private final AdminOverviewService adminOverviewService;
 
     AdminController(
             AppUserRepository users,
             ItemRepository items,
             KioskDeviceRepository kiosks,
-            KioskDisplayProperties kioskDisplayProperties) {
+            KioskDisplayProperties kioskDisplayProperties,
+            AdminOverviewService adminOverviewService) {
         this.users = users;
         this.items = items;
         this.kiosks = kiosks;
         this.kioskDisplayProperties = kioskDisplayProperties;
+        this.adminOverviewService = adminOverviewService;
     }
 
     @GetMapping("/admin")
     String home(Model model) {
-        model.addAttribute("userCount", users.count());
-        model.addAttribute("itemCount", items.count());
-        model.addAttribute("kioskCount", kiosks.count());
-        model.addAttribute("settings", kioskDisplayProperties);
+        model.addAttribute("overview", adminOverviewService.getOverview());
         return "admin/home";
     }
 
@@ -71,13 +72,13 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    @GetMapping("/admin/items")
+    @GetMapping({"/admin/items", "/admin/snacks"})
     String items(Model model) {
         model.addAttribute("items", items.findAll());
         return "admin/items";
     }
 
-    @PostMapping("/admin/items")
+    @PostMapping({"/admin/items", "/admin/snacks"})
     String saveItem(
             @RequestParam(value = "id", required = false) Long id,
             @RequestParam("name") String name,
@@ -101,14 +102,14 @@ public class AdminController {
         return "redirect:/admin/items";
     }
 
-    @GetMapping("/admin/kiosk-settings")
+    @GetMapping({"/admin/kiosk-settings", "/admin/kiosks", "/admin/settings"})
     String kioskSettings(Model model) {
         model.addAttribute("settings", kioskDisplayProperties);
         model.addAttribute("kiosks", kiosks.findAll());
         return "admin/kiosk-settings";
     }
 
-    @PostMapping("/admin/kiosk-settings")
+    @PostMapping({"/admin/kiosk-settings", "/admin/kiosks", "/admin/settings"})
     String saveKioskSettings(
             @RequestParam("cardsPerPage") int cardsPerPage,
             @RequestParam("balancePageSeconds") int balancePageSeconds,
@@ -118,4 +119,10 @@ public class AdminController {
         kioskDisplayProperties.setSnackPageSeconds(snackPageSeconds);
         return "redirect:/admin/kiosk-settings";
     }
+    @GetMapping({"/admin/deposits", "/admin/ledger", "/admin/notifications", "/admin/activity"})
+    String placeholder(Model model, jakarta.servlet.http.HttpServletRequest request) {
+        model.addAttribute("path", request.getRequestURI());
+        return "admin/placeholder";
+    }
+
 }

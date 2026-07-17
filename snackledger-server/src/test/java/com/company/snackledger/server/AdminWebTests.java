@@ -38,9 +38,14 @@ class AdminWebTests {
         mvc.perform(get("/admin").with(user("admin").roles("ADMIN")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/home"))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Manage user accounts")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Manage snacks")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Kiosk settings")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Admin Overview")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Total Amount Owed")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("User Accounts")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Snack Catalog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Balances and Collections")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Kiosk Status")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Recent Activity")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Attention Required")));
     }
 
     @Test
@@ -48,3 +53,4 @@ class AdminWebTests {
         mvc.perform(get("/admin").with(user("kiosk").roles("KIOSK"))).andExpect(status().isForbidden());
     }
 }
+

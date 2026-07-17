@@ -1,24 +1,93 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>SnackLedger Admin</title></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Overview</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#64748b; --border:#e2e8f0; --primary:#2563eb; --good:#15803d; --warn:#b45309; --bad:#b91c1c; }
+    * { box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: Inter, Arial, sans-serif; margin: 0; }
+    .container { margin: 0 auto; max-width: 1440px; padding: 1.5rem; }
+    .header, .card { background: var(--card); border: 1px solid var(--border); border-radius: 1rem; box-shadow: 0 8px 24px rgb(15 23 42 / 6%); }
+    .header { display: flex; gap: 1rem; justify-content: space-between; padding: 1.25rem; }
+    h1 { margin: 0; font-size: 2rem; } h2 { margin: 0 0 .75rem; font-size: 1.15rem; } p { margin: .25rem 0; }
+    .muted { color: var(--muted); font-size: .9rem; }
+    .actions { align-items: center; display: flex; flex-wrap: wrap; gap: .5rem; }
+    .btn { background: #eef2ff; border: 1px solid #c7d2fe; border-radius: .65rem; color: #1d4ed8; display: inline-block; font-weight: 700; padding: .55rem .8rem; text-decoration: none; }
+    .btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .grid { display: grid; gap: 1rem; }
+    .summary { grid-template-columns: repeat(6, minmax(0, 1fr)); margin: 1rem 0; }
+    .two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 1rem; }
+    .card { padding: 1rem; min-width: 0; }
+    .metric { font-size: 2rem; font-weight: 800; letter-spacing: -.03em; }
+    .metric.money { color: var(--bad); } .metric.credit { color: var(--good); }
+    .badge { border-radius: 999px; display: inline-block; font-size: .75rem; font-weight: 800; padding: .25rem .55rem; }
+    .badge.good { background:#dcfce7; color:var(--good); } .badge.warn { background:#fef3c7; color:var(--warn); } .badge.bad { background:#fee2e2; color:var(--bad); } .badge.info { background:#dbeafe; color:#1d4ed8; }
+    .section-head { align-items: center; display:flex; justify-content:space-between; gap: 1rem; margin-bottom: .75rem; }
+    .filters { display:flex; flex-wrap:wrap; gap:.5rem; }
+    input, select { border:1px solid var(--border); border-radius:.5rem; padding:.45rem .55rem; }
+    .table-wrap { max-height: 330px; overflow:auto; border:1px solid var(--border); border-radius:.75rem; }
+    table { border-collapse: collapse; width: 100%; } th, td { border-bottom: 1px solid var(--border); padding: .65rem; text-align:left; vertical-align: middle; } th { background:#f8fafc; color:#475569; font-size:.8rem; position: sticky; top: 0; text-transform: uppercase; } tr:hover td { background:#f8fafc; }
+    .alert { border-left: 4px solid var(--warn); margin-bottom: .75rem; padding: .75rem; background:#fffbeb; border-radius:.6rem; }
+    .alert.Critical { background:#fef2f2; border-color:var(--bad); }
+    .activity { display:grid; gap:.75rem; } .activity-item { border-bottom:1px solid var(--border); padding-bottom:.75rem; }
+    @media (max-width: 1200px) { .summary { grid-template-columns: repeat(3, minmax(0, 1fr)); } .two-col { grid-template-columns: 1fr; } }
+    @media (max-width: 700px) { .container { padding:.75rem; } .header { display:block; } .summary { grid-template-columns: 1fr; } }
+  </style>
+</head>
 <body>
-<h1>SnackLedger Admin</h1>
-<nav>
-  <a th:href="@{/admin/users}">Manage user accounts</a> |
-  <a th:href="@{/admin/items}">Manage snacks</a> |
-  <a th:href="@{/admin/kiosk-settings}">Kiosk settings</a> |
-  <a th:href="@{/kiosk}">Open kiosk</a> |
-  <a th:href="@{/logout}">Log out</a>
-</nav>
-<section>
-  <h2>Overview</h2>
-  <ul>
-    <li><span th:text="${userCount}">0</span> user accounts</li>
-    <li><span th:text="${itemCount}">0</span> snacks</li>
-    <li><span th:text="${kioskCount}">0</span> kiosk devices</li>
-    <li>Balance rotation: <span th:text="${settings.balancePageSeconds}">5</span>s</li>
-    <li>Snack rotation: <span th:text="${settings.snackPageSeconds}">5</span>s</li>
-  </ul>
-</section>
+<div class="container">
+  <header class="header">
+    <div>
+      <h1>Admin Overview</h1>
+      <p class="muted">Current status of users, balances, snacks, kiosks, and recent activity</p>
+      <p class="muted">Current time: <span th:text="${#temporals.format(overview.currentTime, 'MMM d, yyyy h:mm a')}">Today</span> · Last refreshed: <span th:text="${#temporals.format(overview.lastRefreshed, 'h:mm:ss a')}">now</span></p>
+    </div>
+    <div class="actions" aria-label="Primary actions">
+      <a class="btn primary" th:href="@{/admin/users}">Manage Users</a>
+      <a class="btn primary" th:href="@{/admin/snacks}">Manage Snacks</a>
+      <a class="btn" th:href="@{/admin/kiosks}">Manage Kiosks</a>
+      <a class="btn" th:href="@{/admin/deposits}">Add Deposit</a>
+      <a class="btn" th:href="@{/admin}">Refresh</a>
+    </div>
+  </header>
+
+  <section class="grid summary" aria-label="Primary summary cards">
+    <div class="card"><span class="badge good">Healthy</span><h2>Active Users</h2><div class="metric" th:text="${overview.summary.activeUsers}">0</div><p class="muted"><span th:text="${overview.summary.inactiveUsers}">0</span> inactive</p><a class="btn" th:href="@{/admin/users}">Manage Users</a></div>
+    <div class="card"><span class="badge bad">Owes Money</span><h2>Total Amount Owed</h2><div class="metric money" th:text="${#numbers.formatCurrency(overview.summary.totalAmountOwed)}">$0.00</div><p class="muted"><span th:text="${overview.summary.usersOwingMoney}">0</span> users owe money</p><a class="btn" th:href="@{/admin/users}">View Accounts</a></div>
+    <div class="card"><span class="badge good">Credit Available</span><h2>Available User Credit</h2><div class="metric credit" th:text="${#numbers.formatCurrency(overview.summary.totalUserCredit)}">$0.00</div><p class="muted"><span th:text="${overview.summary.usersWithCredit}">0</span> users have credit</p></div>
+    <div class="card"><span class="badge good">Catalog</span><h2>Active Snacks</h2><div class="metric" th:text="${overview.summary.activeSnacks}">0</div><p class="muted"><span th:text="${overview.summary.inactiveSnacks}">0</span> inactive</p><a class="btn" th:href="@{/admin/snacks}">Manage Snacks</a></div>
+    <div class="card"><span class="badge" th:classappend="${overview.summary.kiosksRequiringAttention > 0} ? ' bad' : ' good'" th:text="${overview.summary.kiosksRequiringAttention > 0} ? 'Attention Needed' : 'Healthy'">Healthy</span><h2>Kiosks Online</h2><div class="metric"><span th:text="${overview.summary.onlineKiosks}">0</span> of <span th:text="${overview.summary.totalKiosks}">0</span></div><p class="muted"><span th:text="${overview.summary.kiosksRequiringAttention}">0</span> requires attention</p><a class="btn" th:href="@{/admin/kiosks}">Manage Kiosks</a></div>
+    <div class="card"><span class="badge info">Today</span><h2>Today's Purchases</h2><div class="metric" th:text="${overview.summary.purchasesToday}">0</div><p class="muted"><span th:text="${#numbers.formatCurrency(overview.summary.purchaseValueToday)}">$0.00</span> total</p></div>
+  </section>
+
+  <section class="grid two-col">
+    <div class="card">
+      <div class="section-head"><div><h2>User Accounts</h2><p class="muted">Total users: <span th:text="${overview.summary.activeUsers + overview.summary.inactiveUsers}">0</span></p></div><a class="btn" th:href="@{/admin/users}">Manage User Accounts</a></div>
+      <div class="filters"><input aria-label="Search users" placeholder="Search name, email, badge"><select aria-label="Filter users"><option>All Users</option><option>Owes Money</option><option>Has Credit</option><option>Zero Balance</option><option>Inactive Users</option></select></div>
+      <div class="table-wrap" th:if="${!overview.userPreview.empty}"><table><thead><tr><th>User</th><th>Account Status</th><th>Current Balance</th><th>Balance Status</th><th>Days Negative</th><th>Last Activity</th></tr></thead><tbody><tr th:each="user : ${overview.userPreview}"><td><a th:href="@{/admin/users}" th:text="${user.displayName}">User</a></td><td><span class="badge" th:classappend="${user.active} ? ' good' : ' bad'" th:text="${user.active} ? 'Active' : 'Inactive'">Active</span></td><td th:text="${#numbers.formatCurrency(user.balance)}">$0.00</td><td th:text="${user.balanceStatus}">Settled</td><td th:text="${user.daysNegative}">—</td><td th:text="${user.lastActivity}">Today</td></tr></tbody></table></div>
+      <p class="muted" th:if="${overview.userPreview.empty}">No user accounts have been created yet. <a class="btn" th:href="@{/admin/users}">Create User</a></p>
+    </div>
+
+    <div class="card">
+      <div class="section-head"><div><h2>Snack Catalog</h2><p class="muted">Active snacks: <span th:text="${overview.summary.activeSnacks}">0</span></p></div><a class="btn" th:href="@{/admin/snacks}">Manage Snack Catalog</a></div>
+      <div class="filters"><input aria-label="Search snacks" placeholder="Search snacks"><select aria-label="Filter snack category"><option>All Categories</option><option>Drinks</option><option>Energy Drinks</option><option>Chips</option><option>Granola Bars</option><option>Prepared Food</option></select></div>
+      <div class="table-wrap" th:if="${!overview.snackPreview.empty}"><table><thead><tr><th>Snack</th><th>Category</th><th>Current Price</th><th>Barcode or SKU</th><th>Status</th><th>Last Updated</th></tr></thead><tbody><tr th:each="snack : ${overview.snackPreview}"><td><a th:href="@{/admin/snacks}" th:text="${snack.name}">Snack</a></td><td th:text="${snack.category}">Snacks</td><td th:text="${#numbers.formatCurrency(snack.price)}">$0.00</td><td th:text="${snack.barcode}">SKU</td><td><span class="badge" th:classappend="${snack.status == 'Active'} ? ' good' : ' warn'" th:text="${snack.status}">Active</span></td><td th:text="${snack.lastUpdated}">Today</td></tr></tbody></table></div>
+      <p class="muted" th:if="${overview.snackPreview.empty}">No snacks are currently configured. <a class="btn" th:href="@{/admin/snacks}">Add Snack</a></p>
+    </div>
+  </section>
+
+  <section class="grid two-col">
+    <div class="card"><div class="section-head"><h2>Balances and Collections</h2><div class="actions"><a class="btn" th:href="@{/admin/ledger}">View Ledger</a><a class="btn" th:href="@{/admin/deposits}">Add Deposit</a></div></div><p>Total owed: <strong th:text="${#numbers.formatCurrency(overview.financialSummary.totalAmountOwed)}">$0.00</strong> · Average debt: <strong th:text="${#numbers.formatCurrency(overview.financialSummary.averageDebt)}">$0.00</strong></p><p class="muted">Deposits this week: <span th:text="${#numbers.formatCurrency(overview.financialSummary.depositsThisWeek)}">$0.00</span> · Late fees this week: <span th:text="${#numbers.formatCurrency(overview.financialSummary.lateFeesThisWeek)}">$0.00</span> · Reminder emails: <span th:text="${overview.financialSummary.reminderEmailsThisWeek}">0</span></p><h3>Accounts Requiring Attention</h3><div class="table-wrap" th:if="${!overview.financialSummary.accountsRequiringAttention.empty}"><table><thead><tr><th>User</th><th>Amount Owed</th><th>Days Negative</th><th>Reminder Status</th><th>Last Reminder</th><th>Account Link</th></tr></thead><tbody><tr th:each="account : ${overview.financialSummary.accountsRequiringAttention}"><td th:text="${account.displayName}">User</td><td th:text="${#numbers.formatCurrency(account.amountOwed)}">$0.00</td><td th:text="${account.daysNegative}">—</td><td th:text="${account.reminderStatus}">Sent</td><td th:text="${account.lastReminder}">Never</td><td><a class="btn" th:href="@{/admin/users}">View</a></td></tr></tbody></table></div><p class="muted" th:if="${overview.financialSummary.accountsRequiringAttention.empty}">No accounts currently require attention.</p></div>
+
+    <div class="card"><div class="section-head"><h2>Kiosk Status</h2><div class="actions"><a class="btn" th:href="@{/admin/kiosks}">Manage Kiosks</a><a class="btn" th:href="@{/kiosk}">View Kiosk Interface</a></div></div><div class="table-wrap" th:if="${!overview.kiosks.empty}"><table><thead><tr><th>Kiosk</th><th>Status</th><th>Last Heartbeat</th><th>Version</th><th>Purchases Today</th><th>Auth</th></tr></thead><tbody><tr th:each="kiosk : ${overview.kiosks}"><td><strong th:text="${kiosk.name}">Main Office</strong><br><span class="muted" th:text="${kiosk.identifier}">MAIN</span></td><td><span class="badge" th:classappend="${kiosk.status == 'Online'} ? ' good' : ' bad'" th:text="${kiosk.status}">Online</span></td><td th:text="${kiosk.lastHeartbeat}">Just now</td><td th:text="${kiosk.applicationVersion}">1.0</td><td th:text="${kiosk.purchasesToday}">0</td><td th:text="${kiosk.authenticationStatus}">OK</td></tr></tbody></table></div><p class="muted" th:if="${overview.kiosks.empty}">No kiosk devices are registered. <a class="btn" th:href="@{/admin/kiosks}">Register Kiosk</a></p></div>
+  </section>
+
+  <section class="grid two-col">
+    <div class="card"><div class="section-head"><h2>Recent Activity</h2><a class="btn" th:href="@{/admin/activity}">View Full Activity</a></div><div class="activity" th:if="${!overview.recentActivity.empty}"><div class="activity-item" th:each="activity : ${overview.recentActivity}"><strong><span th:text="${activity.icon}">•</span> <span th:text="${activity.timestamp}">Now</span></strong><p><span th:text="${activity.actor}">System</span> — <span th:text="${activity.description}">Activity</span></p><p class="muted" th:if="${activity.amount != null}" th:text="${#numbers.formatCurrency(activity.amount)}">$0.00</p></div></div><p class="muted" th:if="${overview.recentActivity.empty}">No recent activity is available. Purchases, deposits, and administrative changes will appear here.</p></div>
+    <div class="card" th:if="${!overview.alerts.empty}"><div class="section-head"><h2>Attention Required</h2><a class="btn" th:href="@{/admin/notifications}">Notification History</a></div><div class="alert" th:each="alert : ${overview.alerts}" th:classappend="${alert.severity}"><strong th:text="${alert.severity + ': ' + alert.title}">Warning</strong><p th:text="${alert.explanation}">Explanation</p><a class="btn" th:href="@{${alert.link}}" th:text="${alert.recommendedAction}">Review</a></div></div>
+  </section>
+</div>
 </body>
 </html>

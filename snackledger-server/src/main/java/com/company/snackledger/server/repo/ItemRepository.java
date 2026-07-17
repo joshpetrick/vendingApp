@@ -9,4 +9,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Optional<Item> findByBarcode(String barcode);
 
     List<Item> findTop10ByNameContainingIgnoreCase(String query);
+
+    List<Item> findTop50ByOrderByActiveAscNameAsc();
+
+    long countByActiveTrue();
+
+    long countByActiveFalse();
 }
