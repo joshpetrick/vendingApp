@@ -22,17 +22,17 @@ class KioskApiTests {
 
     @Test
     void validApiKeyBadgeBarcodeAndDuplicatePurchase() throws Exception {
-        mvc.perform(get("/api/v1/kiosk/users/badge/BADGE100")
+        mvc.perform(get("/api/v1/kiosk/users/badge/BADGE001")
                         .header("X-Kiosk-Id", KIOSK_ID)
                         .header("X-Kiosk-Api-Key", API_KEY))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.displayName").value("John Smith"));
+                .andExpect(jsonPath("$.displayName").value("alex"));
 
-        mvc.perform(get("/api/v1/kiosk/items/barcode/100000000001")
+        mvc.perform(get("/api/v1/kiosk/items/barcode/SODA0001")
                         .header("X-Kiosk-Id", KIOSK_ID)
                         .header("X-Kiosk-Api-Key", API_KEY))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.price").value(1.0));
+                .andExpect(jsonPath("$.price").value(0.75));
 
         String body = """
                 {
@@ -49,7 +49,7 @@ class KioskApiTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.purchaseTotal").value(2.0));
+                .andExpect(jsonPath("$.purchaseTotal").value(1.5));
 
         mvc.perform(post("/api/v1/kiosk/purchases")
                         .header("X-Kiosk-Id", KIOSK_ID)
@@ -57,12 +57,12 @@ class KioskApiTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.purchaseTotal").value(2.0));
+                .andExpect(jsonPath("$.purchaseTotal").value(1.5));
     }
 
     @Test
     void invalidApiKeyRejected() throws Exception {
-        mvc.perform(get("/api/v1/kiosk/users/badge/BADGE100")
+        mvc.perform(get("/api/v1/kiosk/users/badge/BADGE001")
                         .header("X-Kiosk-Id", KIOSK_ID)
                         .header("X-Kiosk-Api-Key", "bad"))
                 .andExpect(status().isUnauthorized());

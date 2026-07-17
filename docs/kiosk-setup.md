@@ -9,3 +9,16 @@ SnackLedger uses a server-hosted read-only kiosk display instead of a separate k
 
 The page refreshes every 60 seconds and scrolls through account balances and item prices. The kiosk user has read-only
 access to display pages and should not be used for administrative work.
+
+
+## Rotation settings
+
+The kiosk display uses two stacked containers. The balance container and snack container each show six cards per page by default. Admins can change the timers with:
+
+```yaml
+snackledger:
+  kiosk-display:
+    cards-per-page: 6
+    balance-page-seconds: 5
+    snack-page-seconds: 5
+```

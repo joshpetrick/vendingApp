@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Entity
 public class AppUser {
     @Id @GeneratedValue public Long id;
+    public String username;
     public String displayName;
     public String badgeId;
     public BigDecimal balance = BigDecimal.ZERO;

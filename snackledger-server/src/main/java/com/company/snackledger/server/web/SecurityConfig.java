@@ -1,9 +1,12 @@
 package com.company.snackledger.server.web;
 
+import com.company.snackledger.server.config.DemoUsers;
+import java.util.ArrayList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,15 +30,22 @@ public class SecurityConfig {
 
     @Bean
     UserDetailsService users(PasswordEncoder passwordEncoder) {
-        var kiosk = User.withUsername("kiosk")
+        var users = new ArrayList<UserDetails>();
+        users.add(User.withUsername("kiosk")
                 .password(passwordEncoder.encode("kiosk-change-me"))
                 .roles("KIOSK")
-                .build();
-        var admin = User.withUsername("admin")
+                .build());
+        users.add(User.withUsername("admin")
                 .password(passwordEncoder.encode("admin-change-me"))
                 .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(kiosk, admin);
+                .build());
+
+        DemoUsers.NAMES.forEach(name -> users.add(User.withUsername(name)
+                .password(passwordEncoder.encode(name))
+                .roles("USER")
+                .build()));
+
+        return new InMemoryUserDetailsManager(users);
     }
 
     @Bean

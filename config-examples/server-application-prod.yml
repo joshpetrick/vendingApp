@@ -9,3 +9,11 @@ spring:
 server:
   ssl:
     enabled: true
+snackledger:
+  seed:
+    test-users: false
+    demo-snacks: false
+  kiosk-display:
+    cards-per-page: 6
+    balance-page-seconds: 5
+    snack-page-seconds: 5
