@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" role="img" aria-label="Chips bag">
+  <rect width="200" height="160" rx="24" fill="#fee2e2"/>
+  <path d="M65 25h70l12 110H53z" fill="#f97316"/>
+  <path d="M70 50h60v52H70z" fill="#fff7ed"/>
+  <circle cx="92" cy="75" r="14" fill="#facc15"/>
+  <circle cx="113" cy="78" r="12" fill="#fde68a"/>
+  <text x="100" y="120" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="#7c2d12">CHIPS</text>
+</svg>

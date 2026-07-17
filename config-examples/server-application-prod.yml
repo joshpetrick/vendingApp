@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db.example.internal:5432/snackledger
+    username: snackledger
+    password: ${SNACKLEDGER_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+server:
+  ssl:
+    enabled: true
+snackledger:
+  seed:
+    test-users: false
+    demo-snacks: false
+  kiosk-display:
+    cards-per-page: 6
+    balance-page-seconds: 5
+    snack-page-seconds: 5
