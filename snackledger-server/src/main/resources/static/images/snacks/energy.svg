@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" role="img" aria-label="Energy drink">
+  <rect width="200" height="160" rx="24" fill="#fef3c7"/>
+  <rect x="68" y="18" width="64" height="122" rx="14" fill="#111827"/>
+  <polygon points="108,35 82,85 102,85 92,125 126,68 105,68" fill="#facc15"/>
+</svg>
