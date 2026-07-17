@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Manage Users</title></head>
+<body>
+<h1>Manage User Accounts</h1>
+<p><a th:href="@{/admin}">Back to admin home</a></p>
+<h2>Add user</h2>
+<form method="post" th:action="@{/admin/users}">
+  <label>Username <input name="username" required></label>
+  <label>Display name <input name="displayName" required></label>
+  <label>Badge ID <input name="badgeId" required></label>
+  <label>Balance <input name="balance" type="number" step="0.25" value="0.00" required></label>
+  <label>Active <input name="active" type="checkbox" value="true" checked></label>
+  <button type="submit">Create user</button>
+</form>
+<h2>Existing users</h2>
+<table>
+  <thead><tr><th>Name</th><th>Username</th><th>Badge</th><th>Balance</th><th>Active</th><th>Actions</th></tr></thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <form method="post" th:action="@{/admin/users}">
+      <td><input name="displayName" th:value="${user.displayName}" required></td>
+      <td><input name="username" th:value="${user.username}" required></td>
+      <td><input name="badgeId" th:value="${user.badgeId}" required></td>
+      <td><input name="balance" type="number" step="0.25" th:value="${user.balance}" required></td>
+      <td><input name="active" type="checkbox" value="true" th:checked="${user.active}"></td>
+      <td>
+        <input name="id" type="hidden" th:value="${user.id}">
+        <button type="submit">Save</button>
+      </td>
+    </form>
+    <td>
+      <form method="post" th:action="@{/admin/users/{id}/delete(id=${user.id})}"><button type="submit">Delete</button></form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
