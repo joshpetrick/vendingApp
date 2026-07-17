@@ -1,1 +1,53 @@
-package com.company.snackledger.server.service;import com.company.snackledger.server.model.*;import com.company.snackledger.server.repo.*;import org.springframework.boot.CommandLineRunner;import org.springframework.stereotype.Component;import java.math.BigDecimal;@Component public class DataSeeder implements CommandLineRunner{private final AppUserRepository users;private final ItemRepository items;private final KioskDeviceRepository kiosks;private final ApiKeyService keys;DataSeeder(AppUserRepository u,ItemRepository i,KioskDeviceRepository k,ApiKeyService keys){this.users=u;this.items=i;this.kiosks=k;this.keys=keys;}public void run(String...a){if(users.count()==0){var u=new AppUser();u.displayName="John Smith";u.badgeId="BADGE100";u.balance=new BigDecimal("10.00");users.save(u);}if(items.count()==0){var i=new Item();i.name="Coca-Cola Can";i.barcode="100000000001";i.price=new BigDecimal("1.00");items.save(i);}if(kiosks.count()==0){var k=new KioskDevice();k.kioskName="Main Office Kiosk";k.kioskIdentifier="MAIN-OFFICE-KIOSK";k.apiKeyHash=keys.hash("dev-kiosk-key-change-me");kiosks.save(k);}}}
+package com.company.snackledger.server.service;
+
+import com.company.snackledger.server.model.AppUser;
+import com.company.snackledger.server.model.Item;
+import com.company.snackledger.server.model.KioskDevice;
+import com.company.snackledger.server.repo.AppUserRepository;
+import com.company.snackledger.server.repo.ItemRepository;
+import com.company.snackledger.server.repo.KioskDeviceRepository;
+import java.math.BigDecimal;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class DataSeeder implements CommandLineRunner {
+    private final AppUserRepository users;
+    private final ItemRepository items;
+    private final KioskDeviceRepository kiosks;
+    private final ApiKeyService keys;
+
+    DataSeeder(AppUserRepository users, ItemRepository items, KioskDeviceRepository kiosks, ApiKeyService keys) {
+        this.users = users;
+        this.items = items;
+        this.kiosks = kiosks;
+        this.keys = keys;
+    }
+
+    @Override
+    public void run(String... args) {
+        if (users.count() == 0) {
+            var user = new AppUser();
+            user.displayName = "John Smith";
+            user.badgeId = "BADGE100";
+            user.balance = new BigDecimal("10.00");
+            users.save(user);
+        }
+
+        if (items.count() == 0) {
+            var item = new Item();
+            item.name = "Coca-Cola Can";
+            item.barcode = "100000000001";
+            item.price = new BigDecimal("1.00");
+            items.save(item);
+        }
+
+        if (kiosks.count() == 0) {
+            var kiosk = new KioskDevice();
+            kiosk.kioskName = "Main Office Kiosk";
+            kiosk.kioskIdentifier = "MAIN-OFFICE-KIOSK";
+            kiosk.apiKeyHash = keys.hash("dev-kiosk-key-change-me");
+            kiosks.save(kiosk);
+        }
+    }
+}
