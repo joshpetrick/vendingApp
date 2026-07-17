@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="60">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SnackLedger Kiosk Display</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #101820;
+      color: #f8fafc;
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    header {
+      align-items: center;
+      background: #0f172a;
+      border-bottom: 4px solid #38bdf8;
+      display: flex;
+      justify-content: space-between;
+      padding: 1.25rem 2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    main {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr 1fr;
+      height: calc(100vh - 6.5rem);
+      padding: 2rem;
+    }
+
+    section {
+      background: #172033;
+      border-radius: 1rem;
+      box-shadow: 0 1rem 3rem rgb(0 0 0 / 35%);
+      overflow: hidden;
+    }
+
+    h2 {
+      background: #1e293b;
+      font-size: 2.2rem;
+      margin: 0;
+      padding: 1rem 1.5rem;
+    }
+
+    .scroll-list {
+      animation: scroll-up 35s linear infinite;
+    }
+
+    .row {
+      align-items: center;
+      border-bottom: 1px solid rgb(148 163 184 / 25%);
+      display: flex;
+      font-size: 2rem;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+    }
+
+    .secondary {
+      color: #cbd5e1;
+      font-size: 1.2rem;
+    }
+
+    .amount {
+      color: #86efac;
+      font-weight: 700;
+    }
+
+    .inactive {
+      color: #94a3b8;
+      text-decoration: line-through;
+    }
+
+    @keyframes scroll-up {
+      from { transform: translateY(0); }
+      to { transform: translateY(-50%); }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>SnackLedger</h1>
+  <div class="secondary">Read-only kiosk display • refreshes every 60 seconds</div>
+</header>
+<main>
+  <section aria-label="User balances">
+    <h2>Account Balances</h2>
+    <div class="scroll-list">
+      <div class="row" th:each="user : ${users}" th:classappend="${user.active} ? '' : ' inactive'">
+        <span th:text="${user.displayName}">Jane Smith</span>
+        <span class="amount" th:text="${#numbers.formatCurrency(user.balance)}">$0.00</span>
+      </div>
+      <div class="row" th:each="user : ${users}" th:classappend="${user.active} ? '' : ' inactive'" aria-hidden="true">
+        <span th:text="${user.displayName}">Jane Smith</span>
+        <span class="amount" th:text="${#numbers.formatCurrency(user.balance)}">$0.00</span>
+      </div>
+    </div>
+  </section>
+  <section aria-label="Item prices">
+    <h2>Snack Prices</h2>
+    <div class="scroll-list">
+      <div class="row" th:each="item : ${items}" th:classappend="${item.active} ? '' : ' inactive'">
+        <span>
+          <span th:text="${item.name}">Snack</span>
+          <span class="secondary" th:text="${item.barcode}">0000</span>
+        </span>
+        <span class="amount" th:text="${#numbers.formatCurrency(item.price)}">$0.00</span>
+      </div>
+      <div class="row" th:each="item : ${items}" th:classappend="${item.active} ? '' : ' inactive'" aria-hidden="true">
+        <span>
+          <span th:text="${item.name}">Snack</span>
+          <span class="secondary" th:text="${item.barcode}">0000</span>
+        </span>
+        <span class="amount" th:text="${#numbers.formatCurrency(item.price)}">$0.00</span>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
