@@ -22,7 +22,8 @@ class KioskDisplayTests {
         mvc.perform(get("/kiosk").with(user("kiosk").roles("KIOSK")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("kiosk/display"))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("SnackLedger")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("snack-image")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("negative")));
     }
 
     @Test

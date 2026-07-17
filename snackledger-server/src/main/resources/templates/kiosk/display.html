@@ -81,6 +81,10 @@
       margin-top: .5rem;
     }
 
+    .amount.negative {
+      color: #f87171;
+    }
+
     .snack-image {
       height: auto;
       margin-bottom: .5rem;
@@ -112,7 +116,9 @@
            th:each="user : ${users.subList(pageStart, T(java.lang.Math).min(pageStart + cardsPerPage, users.size()))}"
            th:classappend="${user.active} ? '' : ' inactive'">
         <div class="name" th:text="${user.displayName}">alex</div>
-        <div class="amount" th:text="${#numbers.formatCurrency(user.balance)}">$0.00</div>
+        <div class="amount"
+             th:classappend="${user.balance.signum() < 0} ? ' negative'"
+             th:text="${#numbers.formatCurrency(user.balance)}">$0.00</div>
       </div>
     </div>
   </section>
@@ -125,8 +131,8 @@
       <div class="card"
            th:each="item : ${items.subList(pageStart, T(java.lang.Math).min(pageStart + cardsPerPage, items.size()))}"
            th:classappend="${item.active} ? '' : ' inactive'">
-        <img class="snack-image" th:if="${item.imageUrl != null}" th:src="${item.imageUrl}" alt="" loading="lazy">
         <div class="name" th:text="${item.name}">Snack</div>
+        <img class="snack-image" th:if="${item.imageUrl != null}" th:src="${item.imageUrl}" alt="" loading="lazy">
         <div class="amount" th:text="${#numbers.formatCurrency(item.price)}">$0.00</div>
       </div>
     </div>
