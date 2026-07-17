@@ -16,3 +16,9 @@ snackledger:
     test-users: false
     demo-snacks: false
 ```
+
+## Snack images
+
+Snack records can reference an image URL with a 500-character maximum. The kiosk display constrains rendered snack images
+so oversized admin-provided images do not dominate the display. Demo data uses bundled SVG images under
+`/images/snacks/`.

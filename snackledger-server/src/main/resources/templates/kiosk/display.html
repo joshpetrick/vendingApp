@@ -17,25 +17,11 @@
       overflow: hidden;
     }
 
-    header {
-      align-items: center;
-      background: #0f172a;
-      border-bottom: 4px solid #38bdf8;
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem 2rem;
-    }
-
-    h1 {
-      font-size: 2.8rem;
-      margin: 0;
-    }
-
     main {
       display: grid;
       gap: 1.5rem;
       grid-template-rows: 1fr 1fr;
-      height: calc(100vh - 5.5rem);
+      height: 100vh;
       padding: 1.5rem;
     }
 
@@ -77,6 +63,7 @@
       flex-direction: column;
       justify-content: center;
       min-height: 0;
+      padding: .5rem;
       text-align: center;
     }
 
@@ -94,6 +81,15 @@
       margin-top: .5rem;
     }
 
+    .snack-image {
+      height: auto;
+      margin-bottom: .5rem;
+      max-height: 90px;
+      max-width: 130px;
+      object-fit: contain;
+      width: auto;
+    }
+
     .inactive {
       opacity: .5;
       text-decoration: line-through;
@@ -106,14 +102,6 @@
   </style>
 </head>
 <body th:attr="data-balance-interval=${balancePageMillis},data-snack-interval=${snackPageMillis}">
-<header>
-  <h1>SnackLedger</h1>
-  <div class="meta">
-    Read-only kiosk display • balances rotate every
-    <span th:text="${balancePageMillis / 1000}">5</span>s • snacks rotate every
-    <span th:text="${snackPageMillis / 1000}">5</span>s
-  </div>
-</header>
 <main>
   <section aria-label="User balances">
     <h2>Account Balances</h2>
@@ -137,6 +125,7 @@
       <div class="card"
            th:each="item : ${items.subList(pageStart, T(java.lang.Math).min(pageStart + cardsPerPage, items.size()))}"
            th:classappend="${item.active} ? '' : ' inactive'">
+        <img class="snack-image" th:if="${item.imageUrl != null}" th:src="${item.imageUrl}" alt="" loading="lazy">
         <div class="name" th:text="${item.name}">Snack</div>
         <div class="amount" th:text="${#numbers.formatCurrency(item.price)}">$0.00</div>
       </div>

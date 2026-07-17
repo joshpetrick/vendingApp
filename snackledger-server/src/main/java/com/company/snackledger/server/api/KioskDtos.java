@@ -11,7 +11,7 @@ public class KioskDtos {
 
     public record UserDto(Long id, String displayName, BigDecimal balance, boolean active) {}
 
-    public record ItemDto(Long id, String name, String barcode, BigDecimal price, boolean active) {}
+    public record ItemDto(Long id, String name, String barcode, BigDecimal price, boolean active, String imageUrl) {}
 
     public record PurchaseItem(Long itemId, int quantity) {}
 

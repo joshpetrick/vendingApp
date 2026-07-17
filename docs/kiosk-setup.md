@@ -22,3 +22,6 @@ snackledger:
     balance-page-seconds: 5
     snack-page-seconds: 5
 ```
+
+
+Snack cards can include an image. Demo snacks use bundled SVG images, and snack image URLs are capped at 500 characters while the kiosk display constrains rendered images to a maximum on-screen size.

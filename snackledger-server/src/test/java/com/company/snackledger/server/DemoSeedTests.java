@@ -37,5 +37,7 @@ class DemoSeedTests {
         assertThat(items.findByBarcode("CHIP0001")).get().extracting(item -> item.price).isEqualTo(new BigDecimal("0.75"));
         assertThat(items.findByBarcode("BAR0001")).get().extracting(item -> item.price).isEqualTo(new BigDecimal("0.75"));
         assertThat(items.findByBarcode("FOOD0004")).get().extracting(item -> item.price).isEqualTo(new BigDecimal("0.75"));
+        assertThat(items.findByBarcode("SODA0001")).get().extracting(item -> item.imageUrl).isEqualTo("/images/snacks/soda.svg");
+        assertThat(items.findByBarcode("ENERGY001")).get().extracting(item -> item.imageUrl).isEqualTo("/images/snacks/energy.svg");
     }
 }

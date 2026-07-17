@@ -59,3 +59,6 @@ snackledger:
 ```
 
 Demo soda is priced at $0.75, energy drinks at $2.25, and chips, granola bars, breakfast sandwiches, pizza rolls, and similar snacks at $0.75.
+
+
+Snack cards can include an image. Demo snacks use bundled SVG images, and snack image URLs are capped at 500 characters while the kiosk display constrains rendered images to a maximum on-screen size.

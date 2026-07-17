@@ -86,14 +86,14 @@ public class KioskApiController {
         requireKiosk(request);
         var item = items.findByBarcode(barcode)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Item not found"));
-        return new ItemDto(item.id, item.name, item.barcode, item.price, item.active);
+        return new ItemDto(item.id, item.name, item.barcode, item.price, item.active, item.imageUrl);
     }
 
     @GetMapping("/items/search")
     List<ItemDto> itemSearch(@RequestParam("query") String query, HttpServletRequest request) {
         requireKiosk(request);
         return items.findTop10ByNameContainingIgnoreCase(query).stream()
-                .map(item -> new ItemDto(item.id, item.name, item.barcode, item.price, item.active))
+                .map(item -> new ItemDto(item.id, item.name, item.barcode, item.price, item.active, item.imageUrl))
                 .toList();
     }
 

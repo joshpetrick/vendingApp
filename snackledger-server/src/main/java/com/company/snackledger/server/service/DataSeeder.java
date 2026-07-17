@@ -82,7 +82,7 @@ public class DataSeeder implements CommandLineRunner {
         }
 
         if (!createDemoSnacks) {
-            saveItem("Coca-Cola Can", "100000000001", "0.75");
+            saveItem("Coca-Cola Can", "100000000001", "0.75", "/images/snacks/soda.svg");
             return;
         }
 
@@ -94,60 +94,61 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedSodas() {
-        saveItem("Coca-Cola", "SODA0001", "0.75");
-        saveItem("Diet Coke", "SODA0002", "0.75");
-        saveItem("Pepsi", "SODA0003", "0.75");
-        saveItem("Diet Pepsi", "SODA0004", "0.75");
-        saveItem("Dr Pepper", "SODA0005", "0.75");
-        saveItem("Sprite", "SODA0006", "0.75");
-        saveItem("Mountain Dew", "SODA0007", "0.75");
-        saveItem("Root Beer", "SODA0008", "0.75");
+        saveItem("Coca-Cola", "SODA0001", "0.75", "/images/snacks/soda.svg");
+        saveItem("Diet Coke", "SODA0002", "0.75", "/images/snacks/soda.svg");
+        saveItem("Pepsi", "SODA0003", "0.75", "/images/snacks/soda.svg");
+        saveItem("Diet Pepsi", "SODA0004", "0.75", "/images/snacks/soda.svg");
+        saveItem("Dr Pepper", "SODA0005", "0.75", "/images/snacks/soda.svg");
+        saveItem("Sprite", "SODA0006", "0.75", "/images/snacks/soda.svg");
+        saveItem("Mountain Dew", "SODA0007", "0.75", "/images/snacks/soda.svg");
+        saveItem("Root Beer", "SODA0008", "0.75", "/images/snacks/soda.svg");
     }
 
     private void seedEnergyDrinks() {
-        saveItem("Red Bull", "ENERGY001", "2.25");
-        saveItem("Monster", "ENERGY002", "2.25");
-        saveItem("Rockstar", "ENERGY003", "2.25");
-        saveItem("Celsius", "ENERGY004", "2.25");
-        saveItem("Bang", "ENERGY005", "2.25");
+        saveItem("Red Bull", "ENERGY001", "2.25", "/images/snacks/energy.svg");
+        saveItem("Monster", "ENERGY002", "2.25", "/images/snacks/energy.svg");
+        saveItem("Rockstar", "ENERGY003", "2.25", "/images/snacks/energy.svg");
+        saveItem("Celsius", "ENERGY004", "2.25", "/images/snacks/energy.svg");
+        saveItem("Bang", "ENERGY005", "2.25", "/images/snacks/energy.svg");
     }
 
     private void seedChips() {
-        saveItem("Doritos Nacho Cheese", "CHIP0001", "0.75");
-        saveItem("Doritos Cool Ranch", "CHIP0002", "0.75");
-        saveItem("Lay's Classic", "CHIP0003", "0.75");
-        saveItem("Lay's BBQ", "CHIP0004", "0.75");
-        saveItem("Cheetos", "CHIP0005", "0.75");
-        saveItem("Fritos", "CHIP0006", "0.75");
-        saveItem("Ruffles Cheddar", "CHIP0007", "0.75");
-        saveItem("Sun Chips", "CHIP0008", "0.75");
+        saveItem("Doritos Nacho Cheese", "CHIP0001", "0.75", "/images/snacks/chips.svg");
+        saveItem("Doritos Cool Ranch", "CHIP0002", "0.75", "/images/snacks/chips.svg");
+        saveItem("Lay's Classic", "CHIP0003", "0.75", "/images/snacks/chips.svg");
+        saveItem("Lay's BBQ", "CHIP0004", "0.75", "/images/snacks/chips.svg");
+        saveItem("Cheetos", "CHIP0005", "0.75", "/images/snacks/chips.svg");
+        saveItem("Fritos", "CHIP0006", "0.75", "/images/snacks/chips.svg");
+        saveItem("Ruffles Cheddar", "CHIP0007", "0.75", "/images/snacks/chips.svg");
+        saveItem("Sun Chips", "CHIP0008", "0.75", "/images/snacks/chips.svg");
     }
 
     private void seedGranolaBars() {
-        saveItem("Nature Valley Oats & Honey", "BAR0001", "0.75");
-        saveItem("Nature Valley Peanut Butter", "BAR0002", "0.75");
-        saveItem("Quaker Chocolate Chip", "BAR0003", "0.75");
-        saveItem("Quaker Peanut Butter", "BAR0004", "0.75");
-        saveItem("Kind Dark Chocolate Nuts", "BAR0005", "0.75");
-        saveItem("Clif Chocolate Chip", "BAR0006", "0.75");
-        saveItem("Nutri-Grain Strawberry", "BAR0007", "0.75");
-        saveItem("Fiber One Chocolate", "BAR0008", "0.75");
+        saveItem("Nature Valley Oats & Honey", "BAR0001", "0.75", "/images/snacks/granola.svg");
+        saveItem("Nature Valley Peanut Butter", "BAR0002", "0.75", "/images/snacks/granola.svg");
+        saveItem("Quaker Chocolate Chip", "BAR0003", "0.75", "/images/snacks/granola.svg");
+        saveItem("Quaker Peanut Butter", "BAR0004", "0.75", "/images/snacks/granola.svg");
+        saveItem("Kind Dark Chocolate Nuts", "BAR0005", "0.75", "/images/snacks/granola.svg");
+        saveItem("Clif Chocolate Chip", "BAR0006", "0.75", "/images/snacks/granola.svg");
+        saveItem("Nutri-Grain Strawberry", "BAR0007", "0.75", "/images/snacks/granola.svg");
+        saveItem("Fiber One Chocolate", "BAR0008", "0.75", "/images/snacks/granola.svg");
     }
 
     private void seedPreparedFoods() {
-        saveItem("Sausage Breakfast Sandwich", "FOOD0001", "0.75");
-        saveItem("Bacon Breakfast Sandwich", "FOOD0002", "0.75");
-        saveItem("Egg & Cheese Breakfast Sandwich", "FOOD0003", "0.75");
-        saveItem("Pizza Rolls", "FOOD0004", "0.75");
-        saveItem("Pepperoni Hot Pocket", "FOOD0005", "0.75");
-        saveItem("Ham & Cheese Hot Pocket", "FOOD0006", "0.75");
+        saveItem("Sausage Breakfast Sandwich", "FOOD0001", "0.75", "/images/snacks/sandwich.svg");
+        saveItem("Bacon Breakfast Sandwich", "FOOD0002", "0.75", "/images/snacks/sandwich.svg");
+        saveItem("Egg & Cheese Breakfast Sandwich", "FOOD0003", "0.75", "/images/snacks/sandwich.svg");
+        saveItem("Pizza Rolls", "FOOD0004", "0.75", "/images/snacks/pizza-rolls.svg");
+        saveItem("Pepperoni Hot Pocket", "FOOD0005", "0.75", "/images/snacks/sandwich.svg");
+        saveItem("Ham & Cheese Hot Pocket", "FOOD0006", "0.75", "/images/snacks/sandwich.svg");
     }
 
-    private void saveItem(String name, String barcode, String price) {
+    private void saveItem(String name, String barcode, String price, String imageUrl) {
         var item = new Item();
         item.name = name;
         item.barcode = barcode;
         item.price = new BigDecimal(price);
+        item.imageUrl = imageUrl;
         items.save(item);
     }
 
