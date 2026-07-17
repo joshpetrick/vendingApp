@@ -1,0 +1,1 @@
+package com.company.snackledger.server.model;import jakarta.persistence.*;import java.math.BigDecimal;@Entity public class AppUser{@Id @GeneratedValue public Long id;public String displayName;public String badgeId;public BigDecimal balance=BigDecimal.ZERO;public boolean active=true;}

@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db.example.internal:5432/snackledger
+    username: snackledger
+    password: ${SNACKLEDGER_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+server:
+  ssl:
+    enabled: true
