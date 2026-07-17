@@ -1,0 +1,1 @@
+package com.company.snackledger.server.repo;import com.company.snackledger.server.model.Purchase;import org.springframework.data.jpa.repository.JpaRepository;import java.util.*;public interface PurchaseRepository extends JpaRepository<Purchase,Long>{Optional<Purchase> findByKioskIdAndRequestId(String k,String r);long countByKioskId(String k);}
