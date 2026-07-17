@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" role="img" aria-label="Pizza rolls">
+  <rect width="200" height="160" rx="24" fill="#fff7ed"/>
+  <circle cx="75" cy="65" r="24" fill="#fb923c"/>
+  <circle cx="115" cy="60" r="24" fill="#fdba74"/>
+  <circle cx="105" cy="100" r="24" fill="#f97316"/>
+  <circle cx="125" cy="92" r="5" fill="#b91c1c"/>
+  <circle cx="68" cy="58" r="5" fill="#b91c1c"/>
+  <text x="100" y="138" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#9a3412">PIZZA ROLLS</text>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" role="img" aria-label="Breakfast sandwich">
+  <rect width="200" height="160" rx="24" fill="#ffedd5"/>
+  <ellipse cx="100" cy="62" rx="62" ry="25" fill="#f59e0b"/>
+  <rect x="48" y="62" width="104" height="20" rx="8" fill="#fde68a"/>
+  <rect x="55" y="82" width="90" height="18" rx="8" fill="#92400e"/>
+  <ellipse cx="100" cy="105" rx="58" ry="20" fill="#d97706"/>
+</svg>
