@@ -12,6 +12,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig {
@@ -19,12 +20,16 @@ public class SecurityConfig {
     SecurityFilterChain filter(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/images/**", "/favicon.ico").permitAll()
                         .requestMatchers("/kiosk").hasAnyRole("KIOSK", "ADMIN")
                         .requestMatchers("/dashboard/tv").hasAnyRole("KIOSK", "ADMIN")
                         .requestMatchers("/api/v1/kiosk/**").permitAll()
                         .anyRequest().hasRole("ADMIN"))
                 .formLogin(form -> form.defaultSuccessUrl("/kiosk", true).permitAll())
-                .logout(logout -> logout.permitAll())
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll())
                 .build();
     }
 

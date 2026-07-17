@@ -4,6 +4,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.Test;
@@ -23,11 +24,27 @@ class KioskDisplayTests {
                 .andExpect(status().isOk())
                 .andExpect(view().name("kiosk/display"))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("snack-image")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("/images/snacks/soda.svg")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Log out")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("negative")));
     }
 
     @Test
     void anonymousUserMustLogInBeforeViewingKioskDisplay() throws Exception {
         mvc.perform(get("/kiosk")).andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void kioskUserCanLogOutAndReturnToLoginPage() throws Exception {
+        mvc.perform(get("/logout").with(user("kiosk").roles("KIOSK")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login?logout"));
+    }
+
+    @Test
+    void demoSnackImagesArePubliclyReadable() throws Exception {
+        mvc.perform(get("/images/snacks/soda.svg"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("SODA")));
     }
 }
