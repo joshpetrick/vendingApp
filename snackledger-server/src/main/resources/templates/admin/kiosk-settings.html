@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Kiosk Settings</title></head>
+<body>
+<h1>Kiosk Settings</h1>
+<p><a th:href="@{/admin}">Back to admin home</a></p>
+<form method="post" th:action="@{/admin/kiosk-settings}">
+  <label>Cards per page <input name="cardsPerPage" type="number" min="1" max="12" th:value="${settings.cardsPerPage}" required></label>
+  <label>Balance refresh seconds <input name="balancePageSeconds" type="number" min="1" th:value="${settings.balancePageSeconds}" required></label>
+  <label>Snack refresh seconds <input name="snackPageSeconds" type="number" min="1" th:value="${settings.snackPageSeconds}" required></label>
+  <button type="submit">Save kiosk settings</button>
+</form>
+<h2>Registered kiosks</h2>
+<table>
+  <thead><tr><th>Name</th><th>Identifier</th><th>Active</th><th>Last connection</th><th>Last IP</th></tr></thead>
+  <tbody>
+  <tr th:each="kiosk : ${kiosks}">
+    <td th:text="${kiosk.kioskName}">Main kiosk</td>
+    <td th:text="${kiosk.kioskIdentifier}">MAIN</td>
+    <td th:text="${kiosk.active}">true</td>
+    <td th:text="${kiosk.lastConnectionAt}">never</td>
+    <td th:text="${kiosk.lastKnownIpAddress}">unknown</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
