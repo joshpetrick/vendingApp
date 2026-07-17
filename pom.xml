@@ -10,7 +10,6 @@
 
   <modules>
     <module>snackledger-server</module>
-    <module>snackledger-kiosk</module>
   </modules>
 
   <properties>

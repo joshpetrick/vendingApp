@@ -1,3 +1,11 @@
-# Kiosk Setup
+# Kiosk Display Setup
 
-Copy `config-examples/kiosk.properties` outside the executable JAR and set `SNACKLEDGER_KIOSK_API_KEY` in the machine environment. Do not hardcode production API keys.
+SnackLedger uses a server-hosted read-only kiosk display instead of a separate kiosk desktop application.
+
+1. Start `snackledger-server`.
+2. Open `/kiosk` in a browser on the display machine.
+3. Log in as the `kiosk` user.
+4. Leave the page running full screen.
+
+The page refreshes every 60 seconds and scrolls through account balances and item prices. The kiosk user has read-only
+access to display pages and should not be used for administrative work.

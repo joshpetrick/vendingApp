@@ -1,9 +1,11 @@
 # SnackLedger
 
-SnackLedger is split into two independently deployable Java 17 applications:
+SnackLedger is a Spring Boot application for office snack accounts. The server is the system of record for users,
+balances, items, purchases, deposits, administrative pages, and display-only kiosk/TV views.
 
-* `snackledger-server` — Spring Boot system of record for users, balances, items, purchases, deposits, admin pages, the TV dashboard, and kiosk REST APIs.
-* `snackledger-kiosk` — Swing desktop kiosk client that talks to the server only through secured REST APIs.
+The kiosk is **not** a separate desktop application. A kiosk operator signs in to the server as the read-only `kiosk`
+user and leaves the `/kiosk` page running on the display. The page periodically refreshes and scrolls through current
+account balances and item prices.
 
 ## Build
 
@@ -17,15 +19,25 @@ mvn clean verify
 mvn -pl snackledger-server spring-boot:run
 ```
 
-The development seed data includes kiosk id `MAIN-OFFICE-KIOSK` with API key `dev-kiosk-key-change-me`.
+Development users:
 
-## Run kiosk
+* `admin` / `admin-change-me` — administrative role.
+* `kiosk` / `kiosk-change-me` — read-only kiosk display role.
 
-```bash
-mvn -pl snackledger-kiosk package
-SNACKLEDGER_KIOSK_API_KEY=dev-kiosk-key-change-me java -jar snackledger-kiosk/target/snackledger-kiosk.jar
+Change these credentials before production use.
+
+## Read-only kiosk display
+
+After starting the server, open:
+
+```text
+http://localhost:8080/kiosk
 ```
+
+Log in with the kiosk user. The display is non-interactive, refreshes every 60 seconds, lists user account balances,
+and scrolls through current item prices.
 
 ## Kiosk API
 
-The versioned kiosk API is rooted at `/api/v1/kiosk` and supports health, configuration, badge lookup, user search, barcode lookup, item search, and idempotent purchase submission.
+The legacy versioned kiosk API remains rooted at `/api/v1/kiosk` for future integrations, but purchase/scanner behavior
+is not exposed through a separate desktop client in this iteration.

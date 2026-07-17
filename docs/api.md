@@ -1,3 +1,4 @@
-# SnackLedger Kiosk API
+# SnackLedger API Notes
 
-All kiosk endpoints are under `/api/v1/kiosk`. Authenticated endpoints require `X-Kiosk-Id` and `X-Kiosk-Api-Key` headers. Purchase requests are idempotent by `(kioskId, requestId)`.
+The current kiosk requirement is a read-only server-hosted display at `/kiosk`. The versioned `/api/v1/kiosk` endpoints
+remain available for future integrations, but the shipped kiosk experience is not a separate desktop client.
