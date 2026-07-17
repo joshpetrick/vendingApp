@@ -25,7 +25,11 @@ public class SecurityConfig {
                         .requestMatchers("/dashboard/tv").hasAnyRole("KIOSK", "ADMIN")
                         .requestMatchers("/api/v1/kiosk/**").permitAll()
                         .anyRequest().hasRole("ADMIN"))
-                .formLogin(form -> form.defaultSuccessUrl("/kiosk", true).permitAll())
+                .formLogin(form -> form.successHandler((request, response, authentication) -> {
+                    boolean admin = authentication.getAuthorities().stream()
+                            .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+                    response.sendRedirect(admin ? "/admin" : "/kiosk");
+                }).permitAll())
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                         .logoutSuccessUrl("/login?logout")

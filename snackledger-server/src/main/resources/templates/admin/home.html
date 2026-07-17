@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>SnackLedger Admin</title></head>
+<body>
+<h1>SnackLedger Admin</h1>
+<nav>
+  <a th:href="@{/admin/users}">Manage user accounts</a> |
+  <a th:href="@{/admin/items}">Manage snacks</a> |
+  <a th:href="@{/admin/kiosk-settings}">Kiosk settings</a> |
+  <a th:href="@{/kiosk}">Open kiosk</a> |
+  <a th:href="@{/logout}">Log out</a>
+</nav>
+<section>
+  <h2>Overview</h2>
+  <ul>
+    <li><span th:text="${userCount}">0</span> user accounts</li>
+    <li><span th:text="${itemCount}">0</span> snacks</li>
+    <li><span th:text="${kioskCount}">0</span> kiosk devices</li>
+    <li>Balance rotation: <span th:text="${settings.balancePageSeconds}">5</span>s</li>
+    <li>Snack rotation: <span th:text="${settings.snackPageSeconds}">5</span>s</li>
+  </ul>
+</section>
+</body>
+</html>
